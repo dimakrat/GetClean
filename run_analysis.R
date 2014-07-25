@@ -23,9 +23,6 @@ names(trainY) <- "actID"
 trainSubj = read.table("./train/subject_train.txt")
 names(trainSubj) <- "subject"
 
-train <- cbind(trainX,trainSubj,trainY)
-rm(trainX,trainSubj,trainY)
-
 ## read test data ##
 testX = read.table("./test/X_test.txt")
 names(testX) <- cNames
@@ -36,16 +33,15 @@ names(testY) <- "actID"
 testSubj = read.table("./test/subject_test.txt")
 names(testSubj) <- "subject"
 
-test <- cbind(testX,testSubj,testY)
-rm(testX,testSubj,testY)
-
 ###########################################
 ## Combining tables to one table "combo" ##
 ###########################################
 
-combo <- rbind(test,train)  # test 292747 obs. 563 var. + train 7352 obs. 563 var. =
+train <- cbind(trainX,trainSubj,trainY)
+test <- cbind(testX,testSubj,testY)
+combo <- rbind(test,train)  # test 292747 obs. 563 var. + train 7352 obs. 563 var.
                             # combo 10299 obs. 563 var.
-rm(test,train)
+rm(test,train,testX,testSubj,testY,trainX,trainSubj,trainY)
 
 ## read activity data ##
 actLabels = read.table("activity_labels.txt")
@@ -60,7 +56,7 @@ combo <- merge(combo, actLabels, by="actID")
 dt <- combo[,grep("[Mm]ean|[Ss]td",names(combo))]
 
 ######################################
-## Clean names for columns of combo ##
+##    Uses descriptive names        ##
 ######################################
 
 cNames <- names(dt)
@@ -78,7 +74,7 @@ cNames <- gsub("\\,",".",cNames)                # ',' to '.'
 cNames <- gsub("\\(\\)","",cNames)              # '()' to '.F'
 cNames <- gsub("\\(|\\)|-",".",cNames)          # '(' ')' '-' to '.'
 cNames <- gsub("\\.\\.",".",cNames)             # '..' to '.'
-cNames <- gsub("\\.$","",cNames)             # rmove '.' at end of string
+cNames <- gsub("\\.$","",cNames)                # remove '.' at end of string
 cNames <- gsub(".tBody",".Time.Body",cNames)    # '.tBody' to '.Time.Body'
 
 cNames <- tolower(cNames)
@@ -95,8 +91,8 @@ dt <- cbind(dt,combo[c("subject", "activity")])
 #####################################################
 colN <- ncol(dt)-2
 dtMean <- aggregate(dt[,1:colN],by = dt[c("subject","activity")], FUN=mean)
-rm(dt,colN, secondElement)
 
+rm(dt,colN, secondElement)
 write.table(dtMean, file="dtMean.txt")
 print("The script has done. Result in dtMean.txt")
 

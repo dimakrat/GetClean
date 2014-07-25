@@ -4,24 +4,25 @@
 
 SUBJECT
 
-	The number of subject who performed the activity for each window sample
+	The number of subjects that performed the activity for each window sample
     
 * 01..30 .Unique identifier
 
 ACTIVITY
 
-	Factor of each person performed six activities
+	each person has performed one of the six activities
     
-* 1 WALKING
-* 2 WALKING_UPSTAIRS
-* 3 WALKING_DOWNSTAIRS
-* 4 SITTING
-* 5 STANDING
-* 6 LAYING
+* WALKING
+* WALKING_UPSTAIRS
+* WALKING_DOWNSTAIRS
+* SITTING
+* STANDING
+* LAYING
 
 MEAN OF MEASUREMENTS
 
-		The vectors with the average of each variable for each activity and each subject        
+		The vectors with the average of each variable for each activity and each subject      
+        
 * time.bodyacc.mean.x
 * time.bodyacc.mean.y
 * time.bodyacc.mean.z
